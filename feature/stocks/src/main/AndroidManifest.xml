@@ -3,7 +3,7 @@
     package="com.roquebuarque.smartstocks.stocks">
 
     <application>
-        <activity android:name=".StockListActivity"></activity>
+        <activity android:name=".presentation.ui.StockListActivity"></activity>
     </application>
 
 </manifest>

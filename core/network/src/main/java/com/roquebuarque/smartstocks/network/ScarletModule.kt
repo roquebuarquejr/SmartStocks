@@ -31,5 +31,17 @@ class ScarletModule {
             .addStreamAdapterFactory(RxJava2StreamAdapterFactory())
             .build()
     }
+
+    @Provides
+    @Singleton
+    fun provideSocketService(scarlet: Scarlet): SocketService {
+        return scarlet.create(service = SocketService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSocketHandler(service: SocketService): SocketHandler {
+        return SocketHandlerImpl(service)
+    }
 }
 

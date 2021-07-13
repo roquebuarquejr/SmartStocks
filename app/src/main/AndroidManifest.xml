@@ -13,7 +13,7 @@
         android:name=".StockApplication"
         android:usesCleartextTraffic="true"
         android:theme="@style/Theme.SmartStocks">
-        <activity android:name=".stocks.StockListActivity">
+        <activity android:name=".stocks.presentation.ui.StockListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
