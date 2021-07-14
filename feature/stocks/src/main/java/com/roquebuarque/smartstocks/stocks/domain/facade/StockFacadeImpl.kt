@@ -12,6 +12,7 @@ import com.tinder.scarlet.WebSocket.Event.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.*
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,15 +25,16 @@ class StockFacadeImpl @Inject constructor(
     override fun fetchAllStocks(): Flowable<List<StockDto>> {
         return whenConnected {
             remote.observeStocks()
+                .distinctUntilChanged()
+                .delay(500, TimeUnit.MILLISECONDS)
                 .doOnNext {
                     local.save(it)
                 }
                 .switchMap {
                     local
                         .retrieve()
-                        .toFlowable(BackpressureStrategy.BUFFER)
+                        .toFlowable(BackpressureStrategy.LATEST)
                 }
-                .distinctUntilChanged()
         }
     }
 

@@ -4,11 +4,12 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
 import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StockLocalImpl @Inject constructor(): StockLocal {
+class StockLocalImpl @Inject constructor() : StockLocal {
 
     private val cache = BehaviorRelay.createDefault(listOf<StockDto>())
 
@@ -21,9 +22,10 @@ class StockLocalImpl @Inject constructor(): StockLocal {
     private fun createOrUpdate(stockDto: StockDto) {
         val tempList = cache.value?.toMutableList() ?: mutableListOf()
         tempList.find { it.isin == stockDto.isin }?.let {
-            tempList.remove(it)
+            it.price = stockDto.price
+        } ?: run {
+            tempList.add(stockDto)
         }
-        tempList.add(stockDto)
         cache.accept(tempList.toList())
     }
 
