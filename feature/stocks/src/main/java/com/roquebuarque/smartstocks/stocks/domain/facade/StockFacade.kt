@@ -35,10 +35,6 @@ class StockFacade @Inject constructor(
         }
     }
 
-    private companion object Zipper : Function<Array<Any>, List<StockDto>> {
-        override fun apply(raw: Array<Any>) = raw.map { it as StockDto }
-    }
-
     override fun subscribe(message: Message) {
         remote.sendSubscribe(message)
     }
