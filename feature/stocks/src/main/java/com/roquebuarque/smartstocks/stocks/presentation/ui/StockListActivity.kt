@@ -12,6 +12,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.domain.StockDto
+import com.roquebuarque.smartstocks.stocks.presentation.StockListEvent
 import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import com.roquebuarque.smartstocks.stocks.presentation.StockUI
@@ -36,16 +37,21 @@ class StockListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stock_list)
+        bindViews()
+    }
 
+    private fun bindViews() {
         rvStocks = findViewById(R.id.rvStocks)
         viewFlipper = findViewById(R.id.viewFlipper)
         tvMessage = findViewById(R.id.tvMessage)
-        loading = findViewById(
-            R.id.progress
-        )
+        loading = findViewById(R.id.progress)
+
         rvStocks.itemAnimator = null
         rvStocks.adapter = adapter
 
+        tvMessage.setOnClickListener {
+            viewModel.dispatch(StockListEvent.Fetch)
+        }
     }
 
     override fun onStart() {
@@ -69,10 +75,11 @@ class StockListActivity : AppCompatActivity() {
             }
             StockListState.SyncState.Empty -> {
                 viewFlipper.displayedChild = MESSAGE
+                tvMessage.text = getString(R.string.empty)
             }
             is StockListState.SyncState.Error -> {
                 viewFlipper.displayedChild = MESSAGE
-
+                tvMessage.text = getString(R.string.try_gain, state.syncState.message)
             }
             StockListState.SyncState.Loading -> {
                 viewFlipper.displayedChild = LOADING

@@ -27,6 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:layout_margin="@dimen/size_2"
             android:textAppearance="?attr/textAppearanceSubtitle1"
             tools:text="Something went wrong, tap to retry" />
 

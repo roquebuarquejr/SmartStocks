@@ -14,6 +14,11 @@ fun Resource<List<StockDto>>.mapperToState(currentState: StockListState): StockL
                 )
             } ?: currentState.copy(syncState = StockListState.SyncState.Empty)
     } else {
-        currentState.copy(syncState = StockListState.SyncState.Error("Something went wrong"))
+        currentState.copy(
+            syncState = StockListState
+                .SyncState.Error(
+                    throwable?.message ?: "Something went wrong"
+                )
+        )
     }
 }

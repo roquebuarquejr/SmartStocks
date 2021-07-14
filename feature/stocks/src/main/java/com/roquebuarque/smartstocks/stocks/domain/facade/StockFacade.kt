@@ -4,9 +4,11 @@ import com.roquebuarque.smartstocks.network.Message
 import com.roquebuarque.smartstocks.network.SocketHandler
 import com.roquebuarque.smartstocks.stocks.data.StockLocal
 import com.roquebuarque.smartstocks.stocks.data.StockService
+import com.roquebuarque.smartstocks.stocks.domain.ConnectionFailedException
 import com.roquebuarque.smartstocks.stocks.domain.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
 import com.tinder.scarlet.WebSocket
+import com.tinder.scarlet.WebSocket.Event.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.*
@@ -42,14 +44,24 @@ class StockFacade @Inject constructor(
     override fun <T> whenConnected(func: () -> Flowable<T>): Flowable<T> {
         return remote
             .observeWebSocketEvent()
-            .filter { it is WebSocket.Event.OnConnectionOpened<*> }
-            .doOnNext {
-                SupportedStocks
-                    .values()
-                    .toList()
-                    .forEach {
-                        subscribe(Message(it.isin))
+            .flatMap {
+                when (it) {
+                    is OnConnectionOpened<*> -> {
+                        SupportedStocks
+                            .values()
+                            .toList()
+                            .forEach { supportedStocks ->
+                                subscribe(Message(supportedStocks.isin))
+                            }
                     }
+                    is OnMessageReceived -> { empty<Unit>() }
+                    is OnConnectionClosing -> throw ConnectionFailedException(it.shutdownReason.reason)
+                    is OnConnectionClosed -> throw ConnectionFailedException(it.shutdownReason.reason)
+                    is OnConnectionFailed -> throw  it.throwable
+                }
+
+                just(Unit)
+
             }
             .flatMap { func() }
     }
