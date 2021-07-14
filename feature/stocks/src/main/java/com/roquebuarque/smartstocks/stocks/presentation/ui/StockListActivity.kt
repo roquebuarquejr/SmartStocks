@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.domain.StockDto
+import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import com.roquebuarque.smartstocks.stocks.presentation.StockUI
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,18 +32,35 @@ class StockListActivity : AppCompatActivity() {
         rvStocks.itemAnimator = null
         rvStocks.adapter = adapter
 
+    }
+
+    override fun onStart() {
+        super.onStart()
         disposable = viewModel
             .state
             .subscribe { renderState(it) }
-
     }
 
-    private fun renderState(list: List<StockUI>) {
-        Log.d("Roque", list.toString())
-    }
-
-    override fun onDestroy() {
+    override fun onStop() {
         disposable.dispose()
-        super.onDestroy()
+        super.onStop()
     }
+
+    private fun renderState(state: StockListState) {
+        when(state.syncState){
+            StockListState.SyncState.Content -> {
+                adapter.submitList(state.stocks)
+            }
+            StockListState.SyncState.Empty -> {
+
+            }
+            is StockListState.SyncState.Error -> {
+
+            }
+            StockListState.SyncState.Loading -> {
+
+            }
+        }
+    }
+
 }
