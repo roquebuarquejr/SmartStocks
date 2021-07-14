@@ -1,5 +1,7 @@
 package com.roquebuarque.smartstocks.stocks.presentation.ui
 
+import android.content.Context
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -48,7 +50,7 @@ class StockListActivity : AppCompatActivity() {
     }
 
     private fun renderState(state: StockListState) {
-        when(state.syncState){
+        when (state.syncState) {
             StockListState.SyncState.Content -> {
                 adapter.submitList(state.stocks)
             }
@@ -61,6 +63,12 @@ class StockListActivity : AppCompatActivity() {
             StockListState.SyncState.Loading -> {
 
             }
+        }
+    }
+
+    companion object {
+        fun start(context: Context): Intent {
+            return Intent(context, StockListActivity::class.java)
         }
     }
 

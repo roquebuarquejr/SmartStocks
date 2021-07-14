@@ -16,6 +16,7 @@
             <option value="$PROJECT_DIR$/common/state" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/designsystem" />
+            <option value="$PROJECT_DIR$/core/navigation" />
             <option value="$PROJECT_DIR$/core/network" />
             <option value="$PROJECT_DIR$/feature" />
             <option value="$PROJECT_DIR$/feature/stocks" />
