@@ -15,6 +15,7 @@ import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 @AndroidEntryPoint
@@ -28,7 +29,7 @@ class StockListActivity : AppCompatActivity() {
     private lateinit var tvMessage: TextView
     private lateinit var loading: ProgressBar
 
-    private val adapter by lazy { StockListAdapterUI() }
+    private val adapter by lazy { StockListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,10 +53,11 @@ class StockListActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        disposable = viewModel
-            .state
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { renderState(it) }
+        disposable =
+            viewModel
+                .state
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe { renderState(it) }
     }
 
     override fun onStop() {

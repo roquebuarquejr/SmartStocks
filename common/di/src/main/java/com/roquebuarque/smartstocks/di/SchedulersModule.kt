@@ -11,7 +11,7 @@ import io.reactivex.schedulers.Schedulers
 @InstallIn(SingletonComponent::class)
 class SchedulersModule {
 
-    @IoScheduler
+    @ComputationScheduler
     @Provides
-    fun ioScheduler(): Scheduler = Schedulers.io()
+    fun providesComputationScheduler(): Scheduler = Schedulers.computation()
 }

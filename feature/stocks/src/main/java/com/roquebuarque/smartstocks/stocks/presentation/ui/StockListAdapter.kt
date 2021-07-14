@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.presentation.StockUI
 
-class StockListAdapterUI : ListAdapter<StockUI, StockListAdapterUI.StockViewHolder>(StockListAdapterUI) {
+class StockListAdapter : ListAdapter<StockUI, StockListAdapter.StockViewHolder>(StockListAdapter) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)

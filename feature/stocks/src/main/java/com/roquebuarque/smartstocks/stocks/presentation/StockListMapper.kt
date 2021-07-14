@@ -5,14 +5,21 @@ import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 
 fun Resource<List<StockDto>>.mapperToState(currentState: StockListState): StockListState {
     return if (status == Resource.Status.SUCCESS) {
-        data
-            ?.takeUnless { it.isEmpty() }
-            ?.let { list ->
+        when {
+            data?.isNotEmpty() == true -> {
                 currentState.copy(
-                    stocks = list.asUI().sortedBy { it.name },
+                    stocks = data?.asUI()?.sortedBy { it.name } ?: emptyList(),
                     syncState = StockListState.SyncState.Content
                 )
-            } ?: currentState.copy(syncState = StockListState.SyncState.Empty)
+            }
+            currentState.syncState !is StockListState.SyncState.Loading -> {
+                currentState.copy(syncState = StockListState.SyncState.Empty)
+            }
+            else -> {
+                currentState
+            }
+        }
+
     } else {
         currentState.copy(
             syncState = StockListState

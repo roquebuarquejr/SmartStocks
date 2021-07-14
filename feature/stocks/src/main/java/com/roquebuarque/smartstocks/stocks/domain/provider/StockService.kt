@@ -12,6 +12,4 @@ interface StockService {
     fun observeWebSocketEvent(): Flowable<WebSocket.Event>
     @Send
     fun sendSubscribe(message: Message)
-    @Receive
-    fun observeStocks(): Flowable<StockDto>
 }

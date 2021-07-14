@@ -8,4 +8,4 @@ import javax.inject.Qualifier
 @Qualifier
 @MustBeDocumented
 @Retention(AnnotationRetention.RUNTIME)
-annotation class IoScheduler
+annotation class ComputationScheduler
