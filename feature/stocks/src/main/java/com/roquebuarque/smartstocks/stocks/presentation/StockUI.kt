@@ -1,7 +1,7 @@
 package com.roquebuarque.smartstocks.stocks.presentation
 
-import com.roquebuarque.smartstocks.stocks.domain.StockDto
-import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
+import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
+import com.roquebuarque.smartstocks.stocks.domain.models.SupportedStocks
 import java.text.DecimalFormat
 
 data class StockUI(val name: String, val price: String)

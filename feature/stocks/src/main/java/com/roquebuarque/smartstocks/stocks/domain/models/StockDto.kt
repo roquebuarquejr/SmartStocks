@@ -1,4 +1,4 @@
-package com.roquebuarque.smartstocks.stocks.domain
+package com.roquebuarque.smartstocks.stocks.domain.models
 
 import java.io.Serializable
 

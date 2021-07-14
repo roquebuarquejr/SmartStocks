@@ -2,27 +2,26 @@ package com.roquebuarque.smartstocks.stocks.domain.facade
 
 import com.roquebuarque.smartstocks.network.Message
 import com.roquebuarque.smartstocks.network.SocketHandler
-import com.roquebuarque.smartstocks.stocks.data.StockLocal
-import com.roquebuarque.smartstocks.stocks.data.StockService
-import com.roquebuarque.smartstocks.stocks.domain.ConnectionFailedException
-import com.roquebuarque.smartstocks.stocks.domain.StockDto
-import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
-import com.tinder.scarlet.WebSocket
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockService
+import com.roquebuarque.smartstocks.stocks.domain.models.ConnectionFailedException
+import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
+import com.roquebuarque.smartstocks.stocks.domain.models.SupportedStocks
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockFacade
 import com.tinder.scarlet.WebSocket.Event.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.*
-import io.reactivex.functions.Function
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StockFacade @Inject constructor(
+class StockFacadeImpl @Inject constructor(
     private val remote: StockService,
     private val local: StockLocal
-) : SocketHandler {
+) : SocketHandler, StockFacade {
 
-    fun fetchAllStocks(): Flowable<List<StockDto>> {
+    override fun fetchAllStocks(): Flowable<List<StockDto>> {
         return whenConnected {
             remote.observeStocks()
                 .doOnNext {

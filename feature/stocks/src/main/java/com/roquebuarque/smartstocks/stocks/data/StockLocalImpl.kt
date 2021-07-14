@@ -1,19 +1,20 @@
 package com.roquebuarque.smartstocks.stocks.data
 
 import com.jakewharton.rxrelay2.BehaviorRelay
-import com.roquebuarque.smartstocks.stocks.domain.StockDto
+import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
 import io.reactivex.Observable
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class StockLocal @Inject constructor() {
+class StockLocalImpl @Inject constructor(): StockLocal {
 
     private val cache = BehaviorRelay.createDefault(listOf<StockDto>())
 
-    fun retrieve(): Observable<List<StockDto>> = cache.hide()
+    override fun retrieve(): Observable<List<StockDto>> = cache.hide()
 
-    fun save(stockDto: StockDto) {
+    override fun save(stockDto: StockDto) {
         createOrUpdate(stockDto)
     }
 

@@ -1,7 +1,7 @@
 package com.roquebuarque.smartstocks.stocks.presentation
 
 import com.roquebuarque.smartstocks.network.Resource
-import com.roquebuarque.smartstocks.stocks.domain.StockDto
+import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 
 fun Resource<List<StockDto>>.mapperToState(currentState: StockListState): StockListState {
     return if (status == Resource.Status.SUCCESS) {

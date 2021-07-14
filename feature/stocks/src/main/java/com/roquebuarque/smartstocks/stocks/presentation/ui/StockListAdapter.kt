@@ -8,10 +8,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
-import com.roquebuarque.smartstocks.stocks.domain.StockDto
-import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
 import com.roquebuarque.smartstocks.stocks.presentation.StockUI
-import java.text.DecimalFormat
 
 class StockListAdapterUI : ListAdapter<StockUI, StockListAdapterUI.StockViewHolder>(StockListAdapterUI) {
 

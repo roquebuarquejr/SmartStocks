@@ -1,6 +1,6 @@
 package com.roquebuarque.smartstocks.stocks.di
 
-import com.roquebuarque.smartstocks.stocks.data.StockService
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockService
 import com.tinder.scarlet.Scarlet
 import dagger.Module
 import dagger.Provides
