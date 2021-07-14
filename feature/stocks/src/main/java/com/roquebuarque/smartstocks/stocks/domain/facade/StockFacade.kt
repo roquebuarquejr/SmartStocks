@@ -1,12 +1,13 @@
-package com.roquebuarque.smartstocks.stocks.facade
+package com.roquebuarque.smartstocks.stocks.domain.facade
 
-import android.util.Log
 import com.roquebuarque.smartstocks.network.Message
 import com.roquebuarque.smartstocks.network.SocketHandler
+import com.roquebuarque.smartstocks.stocks.data.StockLocal
 import com.roquebuarque.smartstocks.stocks.data.StockService
 import com.roquebuarque.smartstocks.stocks.domain.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
 import com.tinder.scarlet.WebSocket
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Flowable.*
 import io.reactivex.functions.Function
@@ -15,30 +16,22 @@ import javax.inject.Singleton
 
 @Singleton
 class StockFacade @Inject constructor(
-    private val service: StockService
+    private val remote: StockService,
+    private val local: StockLocal
 ) : SocketHandler {
 
     fun fetchAllStocks(): Flowable<List<StockDto>> {
         return whenConnected {
-            getAllSupportedStocks()
+            remote.observeStocks()
                 .doOnNext {
-                    subscribe(Message(it.isin))
+                    local.save(it)
                 }
-                .flatMap {
-                    just(
-                        service.observeStocks()
-                            .take(3)
-                            .doOnNext {
-                                Log.d("Roque", it.toString())
-                            }
-                    )
-                }.let { sources ->
-                    zip(sources, Zipper)
-                        .doOnNext {
-                            Log.d("Roque", it.toString())
-                        }
+                .switchMap {
+                    local
+                        .retrieve()
+                        .toFlowable(BackpressureStrategy.BUFFER)
                 }
-
+                .distinctUntilChanged()
         }
     }
 
@@ -46,22 +39,22 @@ class StockFacade @Inject constructor(
         override fun apply(raw: Array<Any>) = raw.map { it as StockDto }
     }
 
-    private fun getAllSupportedStocks(): Flowable<SupportedStocks> {
-        return fromIterable(
-            SupportedStocks
-                .values()
-                .toList()
-        )
-    }
-
     override fun subscribe(message: Message) {
-        service.sendSubscribe(message)
+        remote.sendSubscribe(message)
     }
 
     override fun <T> whenConnected(func: () -> Flowable<T>): Flowable<T> {
-        return service
+        return remote
             .observeWebSocketEvent()
             .filter { it is WebSocket.Event.OnConnectionOpened<*> }
+            .doOnNext {
+                SupportedStocks
+                    .values()
+                    .toList()
+                    .forEach {
+                        subscribe(Message(it.isin))
+                    }
+            }
             .flatMap { func() }
     }
 

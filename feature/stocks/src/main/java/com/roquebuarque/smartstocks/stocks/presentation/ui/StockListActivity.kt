@@ -38,6 +38,8 @@ class StockListActivity : AppCompatActivity() {
         super.onStart()
         disposable = viewModel
             .state
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe { renderState(it) }
     }
 

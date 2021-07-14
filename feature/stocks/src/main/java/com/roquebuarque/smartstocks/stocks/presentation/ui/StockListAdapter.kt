@@ -10,8 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.domain.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.SupportedStocks
+import com.roquebuarque.smartstocks.stocks.presentation.StockUI
+import java.text.DecimalFormat
 
-class StockListAdapter : ListAdapter<StockDto, StockListAdapter.StockViewHolder>(StockListAdapter) {
+class StockListAdapterUI : ListAdapter<StockUI, StockListAdapterUI.StockViewHolder>(StockListAdapterUI) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): StockViewHolder {
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -30,26 +32,26 @@ class StockListAdapter : ListAdapter<StockDto, StockListAdapter.StockViewHolder>
         private lateinit var tvName: TextView
         private lateinit var tvValue: TextView
 
-        fun bind(data: StockDto) {
+        fun bind(data: StockUI) {
 
             tvName = view.findViewById(R.id.tvStockName)
             tvValue = view.findViewById(R.id.tvStockValue)
 
-            tvName.text = SupportedStocks.getStockFromIsin(data.isin).name
-            tvValue.text = data.price.toString()
+            tvName.text = data.name
+            tvValue.text = data.price
         }
     }
 
 
-    private companion object : DiffUtil.ItemCallback<StockDto>() {
+    private companion object : DiffUtil.ItemCallback<StockUI>() {
 
-        override fun areItemsTheSame(oldItem: StockDto, newItem: StockDto): Boolean {
-            return oldItem.isin == newItem.isin &&
-                    oldItem.price.equals(newItem.price)
+        override fun areItemsTheSame(oldItem: StockUI, newItem: StockUI): Boolean {
+            return oldItem == newItem
         }
 
-        override fun areContentsTheSame(oldItem: StockDto, newItem: StockDto): Boolean {
-            return oldItem.isin == newItem.isin
+        override fun areContentsTheSame(oldItem: StockUI, newItem: StockUI): Boolean {
+            return oldItem.name == newItem.name &&
+                    oldItem.price == newItem.price
         }
     }
 
