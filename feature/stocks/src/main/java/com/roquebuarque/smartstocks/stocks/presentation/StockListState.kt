@@ -1,7 +1,7 @@
 package com.roquebuarque.smartstocks.stocks.presentation
 
 
-data class StockListState(val stocks: List<StockUI>, val syncState: SyncState){
+data class StockListState(val stocks: List<StockUI> = emptyList(), val syncState: SyncState = SyncState.Loading){
 
     sealed class SyncState{
 

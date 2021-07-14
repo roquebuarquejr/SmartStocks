@@ -11,7 +11,7 @@ class StockLocal @Inject constructor() {
 
     private val cache = BehaviorRelay.createDefault(listOf<StockDto>())
 
-    fun retrieve(): Observable<List<StockDto>> = cache.map { it }.hide()
+    fun retrieve(): Observable<List<StockDto>> = cache.hide()
 
     fun save(stockDto: StockDto) {
         createOrUpdate(stockDto)

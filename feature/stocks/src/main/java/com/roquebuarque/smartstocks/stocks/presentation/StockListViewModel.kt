@@ -19,27 +19,19 @@ class StockListViewModel @Inject constructor(
     override val state: Observable<StockListState> =
         action
             .switchMap { event ->
-                when(event){
+                when (event) {
                     StockListEvent.Fetch -> fetchStocks().toObservable()
                 }
             }
 
     private fun fetchStocks(): Flowable<StockListState> {
-       return repository
+        return repository
             .getStockList()
-            .map { stockList ->
-                StockListState(
-                    stocks =
-                    stockList
-                        .asUI()
-                        .sortedBy { stock ->
-                            stock.name
-                        },
-                    syncState = StockListState.SyncState.Content
-                )
-            }
-
+            .scan(StockListState(),
+                { state, result -> result.mapperToState(state) }
+            )
     }
+
     override fun dispatch(event: StockListEvent) {
         action.accept(event)
     }
