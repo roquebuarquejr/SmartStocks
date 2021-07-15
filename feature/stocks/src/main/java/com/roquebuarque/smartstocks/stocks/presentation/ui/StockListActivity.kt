@@ -2,12 +2,12 @@ package com.roquebuarque.smartstocks.stocks.presentation.ui
 
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.ViewFlipper
 import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.presentation.StockListEvent
@@ -15,7 +15,6 @@ import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 @AndroidEntryPoint
