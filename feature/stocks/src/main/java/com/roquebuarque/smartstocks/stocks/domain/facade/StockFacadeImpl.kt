@@ -1,15 +1,14 @@
 package com.roquebuarque.smartstocks.stocks.domain.facade
 
-import android.util.Log
 import com.google.gson.Gson
 import com.roquebuarque.smartstocks.di.ComputationScheduler
 import com.roquebuarque.smartstocks.network.Message
-import com.roquebuarque.smartstocks.stocks.domain.provider.StockService
 import com.roquebuarque.smartstocks.stocks.domain.models.ConnectionFailedException
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
-import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
 import com.roquebuarque.smartstocks.stocks.domain.models.SupportedStocks
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockFacade
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockService
 import com.tinder.scarlet.WebSocket.Event.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
@@ -41,7 +40,7 @@ class StockFacadeImpl @Inject constructor(
             .timeout(TIMEOUT_S, TimeUnit.SECONDS, scheduler)
             .onBackpressureBuffer(BUFFER_SIZE)
             .subscribeOn(scheduler)
-            .flatMap {
+            .switchMap {
                 when (it) {
                     is OnConnectionOpened<*> -> subscribe()
                     is OnMessageReceived -> sendMessage(it.message as? com.tinder.scarlet.Message.Text)
