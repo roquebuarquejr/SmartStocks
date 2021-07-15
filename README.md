@@ -3,7 +3,7 @@ An Android to show realtime stock prices
 
 ## :camera_flash: Screenshots
 <!-- You can add more screenshots here if you like -->
-<img src="/results/screenshot2.png" width="260">&emsp;<img src="/results/screenshot3.png" width="260">&emsp;<img src="/results/screenshot4.png" width="260">
+<img src="/results/screenshot.png" width="260">&emsp;<img src="/results/screenshot2.png" width="260">&emsp;<img src="/results/screenshot3.png" width="260">
 
 ## Knowledge Stack
 * Kotlin 100%
