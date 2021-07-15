@@ -4,6 +4,7 @@ data class Resource<out T>(val status: Status, val data: T?, val throwable: Thro
 
     enum class Status {
         SUCCESS,
+        LOADING,
         ERROR
     }
 
@@ -11,6 +12,11 @@ data class Resource<out T>(val status: Status, val data: T?, val throwable: Thro
         fun <T> success(data: T): Resource<T> {
             return Resource(Status.SUCCESS, data, null)
         }
+
+        fun <T> loading(): Resource<T> {
+            return Resource(Status.LOADING, null, null)
+        }
+
 
         fun <T> error(throwable: Throwable, data: T? = null): Resource<T> {
             return Resource(Status.ERROR, data, throwable)

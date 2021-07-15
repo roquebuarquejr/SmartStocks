@@ -9,7 +9,6 @@ data class StockListState(val stocks: List<StockUI> = emptyList(), val syncState
      * Wrap synchronization between remote server action and view states
      */
     sealed class SyncState{
-
         /**
          * Display progress bar
          */
