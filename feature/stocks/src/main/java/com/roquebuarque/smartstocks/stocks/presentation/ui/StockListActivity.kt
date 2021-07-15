@@ -36,7 +36,7 @@ class StockListActivity : AppCompatActivity() {
             rvStocks.itemAnimator = null
             rvStocks.adapter = adapter
 
-            tvMessage.setOnClickListener {
+            ctnMessage.setOnClickListener {
                 viewModel.dispatch(StockListEvent.Fetch)
             }
         }
@@ -66,10 +66,12 @@ class StockListActivity : AppCompatActivity() {
                 StockListState.SyncState.Empty -> {
                     viewFlipper.displayedChild = MESSAGE
                     tvMessage.text = getString(R.string.empty)
+                    image.setImageResource(R.drawable.ic_empty)
                 }
                 is StockListState.SyncState.Error -> {
                     viewFlipper.displayedChild = MESSAGE
                     tvMessage.text = getString(R.string.try_gain, state.syncState.message)
+                    image.setImageResource(R.drawable.ic_server_down)
                 }
                 StockListState.SyncState.Loading -> {
                     viewFlipper.displayedChild = LOADING

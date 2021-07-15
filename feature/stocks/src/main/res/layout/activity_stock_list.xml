@@ -22,14 +22,30 @@
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             tools:listitem="@layout/item_stock" />
 
-        <TextView
-            android:id="@+id/tvMessage"
+        <LinearLayout
+            android:id="@+id/ctnMessage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:layout_margin="@dimen/size_2"
-            android:textAppearance="?attr/textAppearanceSubtitle1"
-            tools:text="Something went wrong, tap to retry" />
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/image_size"
+                android:layout_height="@dimen/image_size"
+                android:layout_gravity="center"
+                android:src="@drawable/ic_empty" />
+
+            <TextView
+                android:id="@+id/tvMessage"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/size_2"
+                android:gravity="center"
+                android:textAppearance="?attr/textAppearanceSubtitle1"
+                tools:text="Something went wrong, tap to retry" />
+
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progress"
