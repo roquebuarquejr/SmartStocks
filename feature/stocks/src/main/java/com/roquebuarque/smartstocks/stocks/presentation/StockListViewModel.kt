@@ -7,6 +7,7 @@ import com.roquebuarque.smartstocks.StateViewModel
 import com.roquebuarque.smartstocks.stocks.data.StockRepositoryImpl
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import javax.inject.Inject
@@ -17,11 +18,13 @@ class StockListViewModel @Inject constructor(
 ) : StateViewModel<StockListEvent, StockListState>() {
 
     private val action = BehaviorRelay.createDefault<StockListEvent>(StockListEvent.Fetch)
-    override val state: Observable<StockListState> =
+    override val state: Flowable<StockListState> =
         action
+            .toFlowable(BackpressureStrategy.BUFFER)
+            .onBackpressureBuffer(10000)
             .switchMap { event ->
                 when (event) {
-                    StockListEvent.Fetch -> fetchStocks().toObservable()
+                    StockListEvent.Fetch -> fetchStocks()
                 }
             }
 

@@ -13,9 +13,7 @@ import com.roquebuarque.smartstocks.stocks.domain.provider.StockFacade
 import com.tinder.scarlet.WebSocket.Event.*
 import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
-import io.reactivex.Flowable.*
 import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -24,20 +22,25 @@ import javax.inject.Singleton
 class StockFacadeImpl @Inject constructor(
     private val remote: StockService,
     private val local: StockLocal,
+    private val gson: Gson,
+    @ComputationScheduler private val scheduler: Scheduler
 ) : StockFacade {
 
-    private val gson by lazy { Gson() }
     override fun fetchAllStocks(): Flowable<List<StockDto>> {
         return whenConnected {
             local
                 .retrieve()
-                .toFlowable(BackpressureStrategy.LATEST)
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .onBackpressureBuffer(BUFFER_SIZE)
         }
     }
 
     private fun <T> whenConnected(func: () -> Flowable<T>): Flowable<T> {
         return remote
             .observeWebSocketEvent()
+            .timeout(TIMEOUT_S, TimeUnit.SECONDS, scheduler)
+            .onBackpressureBuffer(BUFFER_SIZE)
+            .subscribeOn(scheduler)
             .flatMap {
                 when (it) {
                     is OnConnectionOpened<*> -> subscribe()
@@ -71,4 +74,9 @@ class StockFacadeImpl @Inject constructor(
             }
     }
 
+    companion object{
+
+        private const val TIMEOUT_S = 10L
+        private const val BUFFER_SIZE = 1000
+    }
 }

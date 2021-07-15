@@ -1,6 +1,7 @@
 package com.roquebuarque.smartstocks
 
 import androidx.lifecycle.ViewModel
+import io.reactivex.Flowable
 import io.reactivex.Observable
 
 
@@ -18,7 +19,7 @@ abstract class StateViewModel<Event, State> : ViewModel(){
      * This hold the current state
      * You should subscribe this in your view
      */
-    abstract val state: Observable<State>
+    abstract val state: Flowable<State>
 
     /**
      * An entry point of the events from the view
