@@ -16,9 +16,9 @@ An Android to show realtime stock prices
 * Mockito
 * truth
 
-## TODO
-
+### TODO
 * UI Test
+* Toml catalog
 
 ## Running test
 `./gradlew test` will run all unit testing 
