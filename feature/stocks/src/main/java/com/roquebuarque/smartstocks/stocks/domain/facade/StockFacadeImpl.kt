@@ -17,6 +17,16 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Handle websockets connection
+ * and provide entry point to get
+ * all stocks list
+ *
+ * @param remote responsible to fetch stocks from websockets and also
+ * provide connection stream
+ *
+ * @param local simple cache to combine all retrieved stocks
+ */
 @Singleton
 class StockFacadeImpl @Inject constructor(
     private val remote: StockService,
@@ -60,7 +70,6 @@ class StockFacadeImpl @Inject constructor(
             )
             local.save(stockDto)
         }
-
     }
 
     private fun subscribe() {
@@ -73,7 +82,6 @@ class StockFacadeImpl @Inject constructor(
     }
 
     companion object{
-
         private const val TIMEOUT_S = 10L
         private const val BUFFER_SIZE = 1000
     }

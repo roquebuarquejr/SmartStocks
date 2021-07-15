@@ -3,6 +3,9 @@ package com.roquebuarque.smartstocks.stocks.presentation
 import com.roquebuarque.smartstocks.network.Resource
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 
+/**
+ * Handle map resource/result from repository to view state
+ */
 fun Resource<List<StockDto>>.mapperToState(currentState: StockListState): StockListState {
     return if (status == Resource.Status.SUCCESS) {
         when {

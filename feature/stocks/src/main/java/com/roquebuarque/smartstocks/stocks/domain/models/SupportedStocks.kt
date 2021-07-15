@@ -1,7 +1,10 @@
 package com.roquebuarque.smartstocks.stocks.domain.models
 
-import java.lang.IllegalArgumentException
-
+/**
+ * Contains all supported stocks
+ *
+ * @param isin unique stock identifier
+ */
 enum class SupportedStocks(val isin: String) {
 
   APPLE("US0378331005"),
@@ -22,6 +25,15 @@ enum class SupportedStocks(val isin: String) {
 
   companion object{
 
+    /**
+     * Simple mapper isin to stock name to display in the recyclerview item
+     * @param isin unique stock identifier
+     *
+     * please note if you add a new stock in the supported enum to mapper it here
+     *
+     * @throws IllegalArgumentException if there are any unknown isin
+     * @return supported stock
+     */
     fun getStockFromIsin(isin: String): SupportedStocks {
       return when(isin){
         APPLE.isin -> APPLE
