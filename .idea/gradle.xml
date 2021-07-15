@@ -14,6 +14,7 @@
             <option value="$PROJECT_DIR$/common" />
             <option value="$PROJECT_DIR$/common/di" />
             <option value="$PROJECT_DIR$/common/state" />
+            <option value="$PROJECT_DIR$/common/views" />
             <option value="$PROJECT_DIR$/core" />
             <option value="$PROJECT_DIR$/core/designsystem" />
             <option value="$PROJECT_DIR$/core/navigation" />

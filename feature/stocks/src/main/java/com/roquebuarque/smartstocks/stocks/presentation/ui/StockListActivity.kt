@@ -3,16 +3,14 @@ package com.roquebuarque.smartstocks.stocks.presentation.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.widget.ProgressBar
-import android.widget.TextView
-import android.widget.ViewFlipper
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import com.roquebuarque.smartstocks.stocks.R
+import com.roquebuarque.smartstocks.stocks.databinding.ActivityStockListBinding
 import com.roquebuarque.smartstocks.stocks.presentation.StockListEvent
 import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
+import com.roquebuarque.smartstocks.views.viewBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
@@ -23,10 +21,7 @@ class StockListActivity : AppCompatActivity() {
     private val viewModel: StockListViewModel by viewModels()
     private lateinit var disposable: Disposable
 
-    private lateinit var rvStocks: RecyclerView
-    private lateinit var viewFlipper: ViewFlipper
-    private lateinit var tvMessage: TextView
-    private lateinit var loading: ProgressBar
+    private val viewBinding by viewBinding { ActivityStockListBinding.inflate(it) }
 
     private val adapter by lazy { StockListAdapter() }
 
@@ -37,16 +32,13 @@ class StockListActivity : AppCompatActivity() {
     }
 
     private fun bindViews() {
-        rvStocks = findViewById(R.id.rvStocks)
-        viewFlipper = findViewById(R.id.viewFlipper)
-        tvMessage = findViewById(R.id.tvMessage)
-        loading = findViewById(R.id.progress)
+        with(viewBinding) {
+            rvStocks.itemAnimator = null
+            rvStocks.adapter = adapter
 
-        rvStocks.itemAnimator = null
-        rvStocks.adapter = adapter
-
-        tvMessage.setOnClickListener {
-            viewModel.dispatch(StockListEvent.Fetch)
+            tvMessage.setOnClickListener {
+                viewModel.dispatch(StockListEvent.Fetch)
+            }
         }
     }
 
@@ -65,34 +57,33 @@ class StockListActivity : AppCompatActivity() {
     }
 
     private fun renderState(state: StockListState) {
-        when (state.syncState) {
-            StockListState.SyncState.Content -> {
-                viewFlipper.displayedChild = CONTENT
-                adapter.submitList(state.stocks)
-            }
-            StockListState.SyncState.Empty -> {
-                viewFlipper.displayedChild = MESSAGE
-                tvMessage.text = getString(R.string.empty)
-            }
-            is StockListState.SyncState.Error -> {
-                viewFlipper.displayedChild = MESSAGE
-                tvMessage.text = getString(R.string.try_gain, state.syncState.message)
-            }
-            StockListState.SyncState.Loading -> {
-                viewFlipper.displayedChild = LOADING
+        with(viewBinding) {
+            when (state.syncState) {
+                StockListState.SyncState.Content -> {
+                    viewFlipper.displayedChild = CONTENT
+                    adapter.submitList(state.stocks)
+                }
+                StockListState.SyncState.Empty -> {
+                    viewFlipper.displayedChild = MESSAGE
+                    tvMessage.text = getString(R.string.empty)
+                }
+                is StockListState.SyncState.Error -> {
+                    viewFlipper.displayedChild = MESSAGE
+                    tvMessage.text = getString(R.string.try_gain, state.syncState.message)
+                }
+                StockListState.SyncState.Loading -> {
+                    viewFlipper.displayedChild = LOADING
+                }
             }
         }
     }
 
     companion object {
-
         private const val CONTENT = 0
         private const val MESSAGE = 1
         private const val LOADING = 2
-
         fun start(context: Context): Intent {
             return Intent(context, StockListActivity::class.java)
         }
     }
-
 }
