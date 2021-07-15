@@ -11,22 +11,20 @@ import javax.inject.Singleton
 @Singleton
 class StockLocalImpl @Inject constructor() : StockLocal {
 
-    private val cache = BehaviorRelay.createDefault(listOf<StockDto>())
-
-    override fun retrieve(): Observable<List<StockDto>> = cache.hide()
+    private val cache = BehaviorRelay.createDefault(mutableListOf<StockDto>())
+    override fun retrieve(): Observable<List<StockDto>> = cache.map { it.toList() }.hide()
 
     override fun save(stockDto: StockDto) {
         createOrUpdate(stockDto)
     }
 
     private fun createOrUpdate(stockDto: StockDto) {
-        val tempList = cache.value?.toMutableList() ?: mutableListOf()
-        tempList.find { it.isin == stockDto.isin }?.let {
+        cache.value?.find { it.isin == stockDto.isin }?.let {
             it.price = stockDto.price
         } ?: run {
-            tempList.add(stockDto)
+            cache.value?.add(stockDto)
         }
-        cache.accept(tempList.toList())
+        cache.accept(cache.value ?: mutableListOf())
     }
 
 }
