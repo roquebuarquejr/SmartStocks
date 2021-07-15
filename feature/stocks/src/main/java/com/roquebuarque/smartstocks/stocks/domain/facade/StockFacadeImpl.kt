@@ -39,7 +39,6 @@ class StockFacadeImpl @Inject constructor(
             .observeWebSocketEvent()
             .timeout(TIMEOUT_S, TimeUnit.SECONDS, scheduler)
             .onBackpressureBuffer(BUFFER_SIZE)
-            .subscribeOn(scheduler)
             .switchMap {
                 when (it) {
                     is OnConnectionOpened<*> -> subscribe()
