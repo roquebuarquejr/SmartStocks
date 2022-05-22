@@ -1,7 +1,6 @@
 package com.roquebuarque.smartstocks.stocks
 
 import com.google.common.truth.Truth.assertThat
-import com.google.gson.Gson
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.mock
 import com.roquebuarque.smartstocks.network.Resource
@@ -11,10 +10,6 @@ import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.models.SupportedStocks
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockFacade
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
-import com.roquebuarque.smartstocks.stocks.domain.provider.StockService
-import com.tinder.scarlet.Message
-import com.tinder.scarlet.ShutdownReason
-import com.tinder.scarlet.WebSocket
 import io.reactivex.Flowable
 import io.reactivex.Observable
 import io.reactivex.schedulers.TestScheduler

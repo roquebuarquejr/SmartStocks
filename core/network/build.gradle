@@ -1,7 +1,6 @@
 plugins {
     id 'com.android.library'
     id 'kotlin-android'
-    id 'dagger.hilt.android.plugin'
     id 'kotlin-kapt'
 }
 
@@ -18,7 +17,6 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles "consumer-rules.pro"
 
-        buildConfigField("String", "BASE_URL", webSocketServerUrl)
     }
 
     buildTypes {
@@ -41,24 +39,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
 
-    //DI
-    def hilt_version = "2.37"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    kapt "androidx.hilt:hilt-compiler:1.0.0"
+
+    // Add Dagger dependencies
+    implementation 'com.google.dagger:dagger:2.42'
+    kapt 'com.google.dagger:dagger-compiler:2.42'
 
     //Network
-    def scarlet_version = "0.1.12"
     def okhttp_version = "4.9.1"
-    kapt("com.squareup.moshi:moshi-kotlin-codegen:1.12.0")
     api "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
     api "com.squareup.okhttp3:okhttp:$okhttp_version"
-    api "com.tinder.scarlet:websocket-okhttp:$scarlet_version"
-    api "com.tinder.scarlet:stream-adapter-rxjava2:$scarlet_version"
-    api "com.tinder.scarlet:message-adapter-gson:$scarlet_version"
-    api "com.tinder.scarlet:lifecycle-android:$scarlet_version"
-    api "com.tinder.scarlet:scarlet:$scarlet_version"
-    api 'com.google.code.gson:gson:2.8.7'
+    api "com.squareup.retrofit2:retrofit:2.9.0"
+    api "com.squareup.retrofit2:adapter-rxjava2:2.9.0"
 
     //Rx
     api "io.reactivex.rxjava2:rxjava:2.2.21"

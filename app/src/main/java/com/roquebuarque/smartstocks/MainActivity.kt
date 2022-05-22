@@ -1,20 +1,18 @@
 package com.roquebuarque.smartstocks
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.roquebuarque.smartstocks.navigation.StockListLauncher
-import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
-@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     @Inject
     lateinit var stockListLauncher: StockListLauncher
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        injector.value.create().inject(this)
         super.onCreate(savedInstanceState)
-
         stockListLauncher.launch(this)
         finish()
     }

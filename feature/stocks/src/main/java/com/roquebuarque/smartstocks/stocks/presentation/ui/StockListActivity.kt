@@ -3,30 +3,61 @@ package com.roquebuarque.smartstocks.stocks.presentation.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelLazy
+import androidx.lifecycle.ViewModelStore
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.databinding.ActivityStockListBinding
+import com.roquebuarque.smartstocks.stocks.di.StockComponent
+import com.roquebuarque.smartstocks.stocks.di.StockComponentProvider
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
 import com.roquebuarque.smartstocks.stocks.presentation.StockListEvent
 import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import com.roquebuarque.smartstocks.views.viewBinding
-import dagger.hilt.android.AndroidEntryPoint
+import dagger.internal.DaggerGenerated
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
-@AndroidEntryPoint
 class StockListActivity : AppCompatActivity() {
 
-    private val viewModel: StockListViewModel by viewModels()
     private lateinit var disposable: Disposable
 
+    lateinit var component: StockComponent
+/*
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory*/
+
+    @Inject
+    lateinit var repository: StockRepository
+
     private val viewBinding by viewBinding { ActivityStockListBinding.inflate(it) }
+    private val viewModel: StockListViewModel by lazyVM()
 
     private val adapter by lazy { StockListAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        component = (application as StockComponentProvider)
+            .provideComponent()
+
+        component
+            .inject(this)
+
+        println("XABLAU $repository")
+
+        disposable = repository
+            .getStockList()
+            .subscribe {
+                println(it)
+            }
+
+
         setContentView(R.layout.activity_stock_list)
         bindViews()
     }
@@ -89,3 +120,18 @@ class StockListActivity : AppCompatActivity() {
         }
     }
 }
+
+inline fun <reified VM : ViewModel> ComponentActivity.lazyVM() = viewModels<VM> {
+    getStockComponent().getStockListViewModelFactory()
+}
+
+private inline fun <reified VM : ViewModel> ComponentActivity.myLovelyViewModels(): Lazy<VM> {
+   return lazy(LazyThreadSafetyMode.NONE) {
+            getStockComponent()
+                .getStockListViewModelFactory()
+                .create(VM::class.java)
+    }
+}
+
+fun ComponentActivity.getStockComponent(): StockComponent =
+    (application as StockComponentProvider).provideComponent()

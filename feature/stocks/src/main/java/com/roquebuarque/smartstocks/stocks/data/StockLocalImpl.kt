@@ -4,11 +4,8 @@ import com.jakewharton.rxrelay2.BehaviorRelay
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockLocal
 import io.reactivex.Observable
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
 class StockLocalImpl @Inject constructor() : StockLocal {
 
     private val cache = BehaviorRelay.createDefault(mutableListOf<StockDto>())

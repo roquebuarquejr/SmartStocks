@@ -2,7 +2,6 @@ package com.roquebuarque.smartstocks
 
 import androidx.lifecycle.ViewModel
 import io.reactivex.Flowable
-import io.reactivex.Observable
 
 
 /**
@@ -13,7 +12,7 @@ import io.reactivex.Observable
  * and this will give you back a state observable
  * and an entry point to receive the events
  */
-abstract class StateViewModel<Event, State> : ViewModel(){
+abstract class StateViewModel<Event, State>: ViewModel() {
 
     /**
      * This hold the current state
