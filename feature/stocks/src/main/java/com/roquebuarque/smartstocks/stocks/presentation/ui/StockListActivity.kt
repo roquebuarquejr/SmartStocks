@@ -3,12 +3,10 @@ package com.roquebuarque.smartstocks.stocks.presentation.ui
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModel
+import com.roquebuarque.smartstocks.di.extensions.injectMe
+import com.roquebuarque.smartstocks.di.extensions.lazyVM
 import com.roquebuarque.smartstocks.di.injector.ActivityInjector
-import com.roquebuarque.smartstocks.di.provider.ViewModelFactoryProvider
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.databinding.ActivityStockListBinding
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
@@ -34,8 +32,7 @@ class StockListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        (application as ActivityInjector).inject(this)
+        injectMe()
 
         println("XABLAU $repository")
         disposable = repository
@@ -107,9 +104,5 @@ class StockListActivity : AppCompatActivity() {
             return Intent(context, StockListActivity::class.java)
         }
     }
-}
-
-inline fun <reified VM : ViewModel> ComponentActivity.lazyVM() = viewModels<VM> {
-    (application as ViewModelFactoryProvider).provideViewModelFactory(this)
 }
 
