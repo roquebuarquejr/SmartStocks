@@ -1,14 +1,13 @@
 package com.roquebuarque.smartstocks.di.components
 
-import androidx.lifecycle.ViewModel
-import com.roquebuarque.smartstocks.stocks.di.StockListViewModelModule
+import androidx.lifecycle.ViewModelProvider
+import com.roquebuarque.smartstocks.di.scopes.ActivityScope
 import dagger.Subcomponent
-import javax.inject.Provider
 
-@Subcomponent(modules = [StockListViewModelModule::class])
+@Subcomponent
 interface ViewModelComponent {
 
-    val viewModelMap: Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>
+    fun getViewModelFactory(): ViewModelProvider.Factory
 
     @Subcomponent.Factory
     interface Factory {

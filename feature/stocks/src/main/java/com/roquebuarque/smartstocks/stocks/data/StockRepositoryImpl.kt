@@ -1,11 +1,10 @@
 package com.roquebuarque.smartstocks.stocks.data
 
-import com.roquebuarque.smartstocks.di.ActivityScope
+import com.roquebuarque.smartstocks.di.scopes.ActivityScope
 import com.roquebuarque.smartstocks.network.Resource
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
 import io.reactivex.Flowable
-import retrofit2.Retrofit
 import javax.inject.Inject
 import kotlin.random.Random
 
