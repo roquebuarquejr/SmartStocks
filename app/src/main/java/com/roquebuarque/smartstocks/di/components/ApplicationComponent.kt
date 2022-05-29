@@ -3,6 +3,7 @@ package com.roquebuarque.smartstocks.di.components
 import android.app.Application
 import com.roquebuarque.smartstocks.di.modules.*
 import com.roquebuarque.smartstocks.network.NetworkModule
+import com.roquebuarque.smartstocks.stocks.di.StockListActivityInjectorModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -14,9 +15,8 @@ import javax.inject.Singleton
         ActivityModule::class,
         ViewModuleModule::class,
         ViewModelFactoryModule::class,
-        ActivityInjectorModule::class
-/*
-        ActivityInjectorFactoryModule::class*/
+        ActivityInjectorModule::class,
+        StockListActivityInjectorModule::class
     ]
 )
 interface ApplicationComponent {

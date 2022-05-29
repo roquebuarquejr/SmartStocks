@@ -6,14 +6,22 @@ import javax.inject.Inject
 import javax.inject.Provider
 
 class ActivityInjectorFactory @Inject constructor(
-/*    private val activityMap: Map<Class<out Activity>,
-            @JvmSuppressWildcards Provider<MembersInjector<Activity>>>*/
+    private val activityMap: Map<Class<out Activity>,
+            @JvmSuppressWildcards Provider<ActivityMemberInjector<Activity>>>
 ) : ActivityInjector {
 
     override fun inject(activity: Activity) {
-
-        TODO("Not yet implemented")
+        val provider = activityMap[activity.javaClass]
+        provider?.get()?.inject(activity)
     }
+
 }
 
-interface Injector /*: MembersInjector<T>*/
+class ActivityMemberInjector<T : Activity>(
+    private val activityMemberInjector: MembersInjector<Activity>
+) {
+
+    fun inject(activity: T) {
+        activityMemberInjector.injectMembers(activity)
+    }
+}

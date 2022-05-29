@@ -5,13 +5,15 @@ import com.roquebuarque.smartstocks.network.Resource
 import com.roquebuarque.smartstocks.stocks.domain.models.StockDto
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
 import io.reactivex.Flowable
+import retrofit2.Retrofit
 import javax.inject.Inject
 import kotlin.random.Random
 
 @ActivityScope
-class StockRepositoryImpl @Inject constructor() : StockRepository {
+class StockRepositoryImpl @Inject constructor(val retrofit: Retrofit) : StockRepository {
 
     override fun getStockList(): Flowable<Resource<List<StockDto>>> {
+        print("XABLAU $retrofit")
         return Flowable.just(Resource.success(mock()))
     }
 

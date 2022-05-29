@@ -3,12 +3,14 @@ package com.roquebuarque.smartstocks
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
+import com.roquebuarque.smartstocks.di.ActivityInjector
 import com.roquebuarque.smartstocks.di.ViewModelFactoryProvider
 import com.roquebuarque.smartstocks.di.components.ApplicationComponent
 import com.roquebuarque.smartstocks.di.components.DaggerApplicationComponent
 
 class StockApplication : Application(),
-    ViewModelFactoryProvider {
+    ViewModelFactoryProvider,
+    ActivityInjector {
 
     lateinit var component: ApplicationComponent
 
@@ -28,6 +30,14 @@ class StockApplication : Application(),
             .getViewModelComponentFactory()
             .create()
             .getViewModelFactory()
+    }
+
+    override fun inject(activity: Activity) {
+        component
+            .getActivityComponentFactory()
+            .create()
+            .getActivityInjector()
+            .inject(activity)
     }
 
 }

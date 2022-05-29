@@ -7,22 +7,25 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
+import com.roquebuarque.smartstocks.di.ActivityInjector
 import com.roquebuarque.smartstocks.di.ViewModelFactoryProvider
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.databinding.ActivityStockListBinding
+import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
 import com.roquebuarque.smartstocks.stocks.presentation.StockListEvent
 import com.roquebuarque.smartstocks.stocks.presentation.StockListState
 import com.roquebuarque.smartstocks.stocks.presentation.StockListViewModel
 import com.roquebuarque.smartstocks.views.viewBinding
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class StockListActivity : AppCompatActivity() {
 
     private lateinit var disposable: Disposable
-/*
+
     @Inject
-    lateinit var repository: StockRepository*/
+    lateinit var repository: StockRepository
 
     private val viewBinding by viewBinding { ActivityStockListBinding.inflate(it) }
     private val viewModel: StockListViewModel by lazyVM()
@@ -32,16 +35,16 @@ class StockListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-       // (application as StockInjectorHelper).inject(this)
+        (application as ActivityInjector).inject(this)
 
-      /*  println("XABLAU $repository")
+        println("XABLAU $repository")
         disposable = repository
             .getStockList()
             .subscribe {
                 println(it)
             }
 
-*/
+
 
         setContentView(R.layout.activity_stock_list)
         bindViews()

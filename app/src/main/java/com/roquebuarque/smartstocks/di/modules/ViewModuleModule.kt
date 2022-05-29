@@ -8,5 +8,4 @@ import dagger.Module
     subcomponents = [ViewModelComponent::class],
     includes = [StockListViewModelModule::class]
 )
-object ViewModuleModule {
-}
+object ViewModuleModule

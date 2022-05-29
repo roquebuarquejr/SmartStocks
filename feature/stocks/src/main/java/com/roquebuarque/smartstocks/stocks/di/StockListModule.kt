@@ -3,7 +3,7 @@ package com.roquebuarque.smartstocks.stocks.di
 import android.app.Activity
 import androidx.lifecycle.ViewModel
 import com.roquebuarque.smartstocks.di.ActivityKey
-import com.roquebuarque.smartstocks.di.Injector
+import com.roquebuarque.smartstocks.di.ActivityMemberInjector
 import com.roquebuarque.smartstocks.di.ViewModelKey
 import com.roquebuarque.smartstocks.stocks.data.StockRepositoryImpl
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository
@@ -12,9 +12,8 @@ import com.roquebuarque.smartstocks.stocks.presentation.ui.StockListActivity
 import dagger.Binds
 import dagger.MembersInjector
 import dagger.Module
-import dagger.multibindings.ClassKey
+import dagger.Provides
 import dagger.multibindings.IntoMap
-import javax.inject.Inject
 
 @Module
 abstract class StockListModule {
@@ -25,13 +24,17 @@ abstract class StockListModule {
 }
 
 @Module
-abstract class StockListActivityInjectorModule{
+class StockListActivityInjectorModule {
 
-   /* @Binds
+    @Provides
     @IntoMap
     @ActivityKey(StockListActivity::class)
-    abstract fun bindStockListActivityMemberInjector(impl: StockListMemberInjector): Injector
-*/
+    fun providesStockListActivityMemberInject(
+        stockListActivityMemberInjector: MembersInjector<StockListActivity>
+    ): ActivityMemberInjector<Activity> {
+        return ActivityMemberInjector(stockListActivityMemberInjector as MembersInjector<Activity>)
+    }
+
 }
 
 @Module
