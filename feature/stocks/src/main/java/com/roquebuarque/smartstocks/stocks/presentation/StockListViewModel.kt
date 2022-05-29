@@ -7,7 +7,7 @@ import io.reactivex.BackpressureStrategy
 import io.reactivex.Flowable
 import javax.inject.Inject
 
-class StockListViewModel @Inject constructor(
+internal class StockListViewModel @Inject constructor(
     private val repository: StockRepository
 ) : StateViewModel<StockListEvent, StockListState>() {
 

@@ -1,4 +1,4 @@
-package com.roquebuarque.smartstocks.di
+package com.roquebuarque.smartstocks.di.injector
 
 import android.app.Activity
 

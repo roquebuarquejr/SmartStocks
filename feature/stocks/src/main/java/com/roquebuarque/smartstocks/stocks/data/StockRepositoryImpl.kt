@@ -10,7 +10,7 @@ import javax.inject.Inject
 import kotlin.random.Random
 
 @ActivityScope
-class StockRepositoryImpl @Inject constructor(val retrofit: Retrofit) : StockRepository {
+internal class StockRepositoryImpl @Inject constructor(val retrofit: Retrofit) : StockRepository {
 
     override fun getStockList(): Flowable<Resource<List<StockDto>>> {
         print("XABLAU $retrofit")

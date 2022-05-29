@@ -1,13 +1,15 @@
 package com.roquebuarque.smartstocks.di.modules
 
-import com.roquebuarque.smartstocks.di.ActivityInjector
-import com.roquebuarque.smartstocks.di.ActivityInjectorFactory
-import com.roquebuarque.smartstocks.stocks.di.StockListActivityInjectorModule
+import com.roquebuarque.smartstocks.di.contributor.ActivityContributorModule
+import com.roquebuarque.smartstocks.di.injector.ActivityInjector
+import com.roquebuarque.smartstocks.di.factory.ActivityInjectorFactory
 import dagger.Binds
 import dagger.Module
 
 @Module(
-    includes = [StockListActivityInjectorModule::class]
+    includes = [
+        ActivityContributorModule::class
+    ]
 )
 abstract class ActivityInjectorModule {
 

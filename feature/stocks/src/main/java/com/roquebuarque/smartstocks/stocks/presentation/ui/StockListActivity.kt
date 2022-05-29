@@ -7,8 +7,8 @@ import androidx.activity.ComponentActivity
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModel
-import com.roquebuarque.smartstocks.di.ActivityInjector
-import com.roquebuarque.smartstocks.di.ViewModelFactoryProvider
+import com.roquebuarque.smartstocks.di.injector.ActivityInjector
+import com.roquebuarque.smartstocks.di.provider.ViewModelFactoryProvider
 import com.roquebuarque.smartstocks.stocks.R
 import com.roquebuarque.smartstocks.stocks.databinding.ActivityStockListBinding
 import com.roquebuarque.smartstocks.stocks.domain.provider.StockRepository

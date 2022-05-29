@@ -3,8 +3,8 @@ package com.roquebuarque.smartstocks
 import android.app.Activity
 import android.app.Application
 import androidx.lifecycle.ViewModelProvider
-import com.roquebuarque.smartstocks.di.ActivityInjector
-import com.roquebuarque.smartstocks.di.ViewModelFactoryProvider
+import com.roquebuarque.smartstocks.di.injector.ActivityInjector
+import com.roquebuarque.smartstocks.di.provider.ViewModelFactoryProvider
 import com.roquebuarque.smartstocks.di.components.ApplicationComponent
 import com.roquebuarque.smartstocks.di.components.DaggerApplicationComponent
 

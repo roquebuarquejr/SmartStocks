@@ -1,4 +1,4 @@
-package com.roquebuarque.smartstocks.di
+package com.roquebuarque.smartstocks.di.provider
 
 import android.app.Activity
 import androidx.lifecycle.ViewModelProvider

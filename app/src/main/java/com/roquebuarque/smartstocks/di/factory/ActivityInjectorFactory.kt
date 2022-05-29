@@ -1,7 +1,9 @@
-package com.roquebuarque.smartstocks.di
+package com.roquebuarque.smartstocks.di.factory
+
 
 import android.app.Activity
-import dagger.MembersInjector
+import com.roquebuarque.smartstocks.di.injector.ActivityInjector
+import com.roquebuarque.smartstocks.di.injector.ActivityMemberInjector
 import javax.inject.Inject
 import javax.inject.Provider
 
@@ -15,13 +17,4 @@ class ActivityInjectorFactory @Inject constructor(
         provider?.get()?.inject(activity)
     }
 
-}
-
-class ActivityMemberInjector<T : Activity>(
-    private val activityMemberInjector: MembersInjector<Activity>
-) {
-
-    fun inject(activity: T) {
-        activityMemberInjector.injectMembers(activity)
-    }
 }

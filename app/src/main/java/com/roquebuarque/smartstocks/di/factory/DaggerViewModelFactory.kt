@@ -1,4 +1,4 @@
-package com.roquebuarque.smartstocks.di
+package com.roquebuarque.smartstocks.di.factory
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
